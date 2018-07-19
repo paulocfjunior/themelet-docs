@@ -14,7 +14,8 @@ It will ask you for some information about the themelet before creating it, like
 > If you set it to be compatible with a specific version of Liferay Portal, it won't even appear in the searches performed by themes in other versions, it's necessary to avoid an unexpected behavior.
 
 ## How to publish themelets to npm?
-First, you need to create and login to an npm account on your terminal. To do that you can run `npm login` and fill the credentials (`npm adduser` is an alias to this command and behaves exactly the same way). It would create an account in the npm registry if you didn't have one yet. If you want to test it worked, you can run the `npm whoami` command. It should return your npm username. 
+First, you need to create and login to an npm account on your terminal. To do that you can run `npm adduser` and fill the credentials. It would create an account in the npm registry if you didn't have one yet. If you want to test it worked, you can run the `npm whoami` command, it should return your npm username. You should be able to login on the [npmjs site](https://www.npmjs.com) also.
+> `npm login` is an alias to `npm adduser` and behaves exactly the same way. 
 
 Then, to publish the package, you should execute the `npm publish` command. After that, your package should be available in the public npm registry to everyone who wanted to use it.
 
