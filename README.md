@@ -2,6 +2,17 @@
 
 A brief summary of why and how to use Liferay Themelets.
 
+## Table of contents
+- [Why use themelets?](#why-use-themelets)
+- [How to create themelets?](#how-to-create-themelets)
+    - [Preparing the environment](#preparing-the-environment)
+    - [Creating themelets](#creating-themelets)
+    - [Installing themelets locally for testing](#installing-themelets-locally-for-testing)
+- [How to publish themelets to npm?](#how-to-publish-themelets-to-npm)
+- [How to install a published themelet into the theme?](#how-to-install-a-published-themelet-into-the-theme)
+    - [Under the hood](#under-the-hood)
+- [Conclusion](#conclusion)
+
 ## Why use themelets?
 Themelets are small pieces of code, designed to provide additional styles or functionalities to your Liferay Theme, so you can search, choose the themelets you want to use, and extend your theme with them.
 
@@ -18,21 +29,21 @@ npm install -g yo gulp generator-liferay-theme
 > _Probably you should run this as root._
 
 #### Creating themelets
-As the prerequisites were supplied, you should be able to use the generator:
+As the prerequisites were supplied, you should be able to use the generator. You can run this in any folder on your pc, it shouldn't be created inside your theme or your bundle:
 ```
 yo liferay-theme:themelet
 ```
 It will ask you for some information about the themelet before creating it, like the name, identifier, and which version of the Liferay Portal you intend to use. Also, it's possible to create one to be compatible with all versions of Liferay.
-> If you set it to be compatible with a specific version of Liferay Portal, it won't even appear in the searches performed by themes in other versions, it's necessary to avoid an unexpected behavior.
+> If you set it to be compatible with a specific version of Liferay Portal, it won't even appear in the searches performed by themes in other versions, it is to avoid an unexpected behavior.
 
 #### Installing themelets locally for testing
 Before you publish your themelet you should want to test it on your development environment. To do this you should install your themelet on your local repository globally, so navigate to the **_themelet_** folder and run the command:
 ```
-npm install -g .
+/path/to/your/themelet$ npm install -g .
 ```
 After that you should be able to extend your theme with your themelet, to do this you should go to the **_theme_** folder and run the command:
 ```
-gulp extend
+/path/to/your/theme$ gulp extend
 ```
 And then it will show you a prompt, choose **Themelet**:
 ```
@@ -70,7 +81,7 @@ Then, to publish the package, you should execute the `npm publish` command. Afte
 If you need to make changes to your themelet, you could publish it again, but before you will need to increment the version because it's not possible to publish the same package with the same version twice. For this you should use semantic versioning, it's an npm CLI command that will automatically update your metadata to the next major, minor or patch version.
 > For more information about npm packages and to understand how the semantic versioning works, you could check [here](https://docs.npmjs.com/getting-started/publishing-npm-packages).
 
-## How to install a published themelet on the theme?
+## How to install a published themelet into the theme?
 Once you have a themelet published to npm, it's ready to extend your theme.
 
 So, as you did for testing, you should go to your **theme** directory and run `gulp extend` command. You follow the steps and when it ask you like to search, you choose npm registry. 
@@ -83,8 +94,12 @@ So, as you did for testing, you should go to your **theme** directory and run `g
 
 You could do a search by name or you could just give a brief description of what you want, the extend task will search for the packages that match the most with your terms and show you a list. Then you could select the ones you want and proceed to the installation.
 
-> The search considers only the packages that have **'liferay-theme'** included on their keywords. It can be defined on your themelet's `package.json` file.
+> The search considers only the packages that have **'liferay-theme'** included on their keywords. Your themelet's `package.json` file contains the keywords key, it accepts an array of strings, you can change that directly.
 
 After that, the themelet will be added to your `node_modules` folder, and your theme's `package.json` file will be modified to describe which themelets are installed.
 
-Then you should deploy your theme to generate the build files and the dist war file, and you can also deploy it to your production server, it should work painless.
+#### Under the hood
+There is a difference between running `npm install` and `gulp extend` on the theme to _install_ your themelet. During the _extend_ process, although your themelet is installed via npm, your `package.json`'s themelet dependencies are changed too, this couple things are required to the themelet works.
+
+## Conclusion
+Then you should run `gulp deploy` in your theme to generate the build files and the dist war file, and you can also deploy it to your production server, it should work painless.
